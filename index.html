@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medication Instructions</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+    
+    .header h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 15px;
+    }
+    
+    .lang-buttons {
+      display: grid;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .lang-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .lang-btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: rgba(255,255,255,0.2);
+      transition: left 0.3s ease;
+    }
+    
+    .lang-btn:hover:before {
+      left: 100%;
+    }
+    
+    .lang-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    
+    .lang-btn:active {
+      transform: translateY(0);
+    }
+    
+    .en { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .zh { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .ms { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .tm { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    
+    .lang-btn .icon {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+    
+    .info-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .info-box p {
+      font-size: 14px;
+      color: #666;
+      margin: 0;
+    }
+    
+    .video-container {
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    .video-container.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .video-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 10px 10px 0 0;
+      margin-bottom: 0;
+    }
+    
+    .video-header h2 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+    
+    .video-header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: #000;
+      border-radius: 0 0 10px 10px;
+    }
+    
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .back-btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+    
+    .features {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    
+    .feature-tag {
+      background: #e9ecef;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #495057;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="languageSelection">
+      <div class="header">
+        <h1>💨 Medication Instructions for Inhaler</h1>
+        <p>Select your preferred language to watch the instructional video</p>
+      </div>
+      
+      <div class="lang-buttons">
+        <button class="lang-btn en" onclick="playVideo('en', 'English')">
+          <span class="icon">🇬🇧</span>
+          <span>English</span>
+        </button>
+        <button class="lang-btn zh" onclick="playVideo('zh', '中文')">
+          <span class="icon">🇨🇳</span>
+          <span>中文 (Mandarin)</span>
+        </button>
+        <button class="lang-btn ms" onclick="playVideo('ms', 'Bahasa Melayu')">
+          <span class="icon">🇲🇾</span>
+          <span>Bahasa Melayu (Malay)</span>
+        </button>
+        <button class="lang-btn tm" onclick="playVideo('tm', 'தமிழ்')">
+          <span class="icon">🇮🇳</span>
+          <span>தமிழ் (Tamil)</span>
+        </button>
+      </div>
+      
+      <div class="info-box">
+        <p><strong>✓</strong> Subtitles available in all languages</p>
+        <div class="features">
+          <span class="feature-tag">HD Quality</span>
+          <span class="feature-tag">Easy to Follow</span>
+          <span class="feature-tag">3-5 Minutes</span>
+        </div>
+      </div>
+    </div>
+    
+    <div id="videoContainer" class="video-container">
+      <div class="video-header">
+        <h2 id="videoTitle">Medication Instructions for Inhaler</h2>
+        <p id="videoLang">Language: English</p>
+      </div>
+      <div class="video-wrapper">
+        <iframe id="ytplayer" 
+                src=""
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+        </iframe>
+      </div>
+      <button class="back-btn" onclick="goBack()">← Back to Language Selection</button>
+    </div>
+  </div>
+
+  <script>
+    // Video URLs for each language
+    const videos = {
+      en: 'dQw4w9WgXcQ',  // Replace with actual English video ID
+      zh: 'dQw4w9WgXcQ',  // Replace with actual Mandarin video ID
+      ms: 'dQw4w9WgXcQ',  // Replace with actual Malay video ID
+      tm: 'dQw4w9WgXcQ'   // Replace with actual Tamil video ID
+    };
+    
+    function playVideo(lang, langName) {
+      const videoId = videos[lang];
+      const iframe = document.getElementById('ytplayer');
+      
+      // Set iframe source with autoplay
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      
+      // Update video title and language
+      document.getElementById('videoTitle').textContent = 'Medication Instructions for Inhaler';
+      document.getElementById('videoLang').textContent = `Language: ${langName}`;
+      
+      // Hide language selection and show video
+      document.getElementById('languageSelection').style.display = 'none';
+      document.getElementById('videoContainer').classList.add('active');
+    }
+    
+    function goBack() {
+      // Stop video by clearing iframe source
+      document.getElementById('ytplayer').src = '';
+      
+      // Show language selection and hide video
+      document.getElementById('languageSelection').style.display = 'block';
+      document.getElementById('videoContainer').classList.remove('active');
+    }
+  </script>
+</body>
+</html>
